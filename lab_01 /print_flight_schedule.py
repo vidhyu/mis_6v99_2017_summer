@@ -1,3 +1,4 @@
+# first Lab 
 csv_header = 'tail_number,origin,destination,departure_time,arrival_time'
 file_name = 'flight_schedule.csv'
 def print_flight_schedule(fn, csv_hdr, flt_sched):
