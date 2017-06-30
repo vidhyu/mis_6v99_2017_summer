@@ -6,6 +6,10 @@ def print_flight_schedule(fn, csv_hdr, flt_sched):
         print(csv_hdr, file=f)
         for s in flt_sched:
             print(','.join(s), file=f)
+            
+airports = [['AUS', 1, 25], ['DAL', 2, 30], ['HOU',3, 35]]
+
+flight_times = [['AUS', 'DAL', 50], ['DAL', 'AUS', 50], ['AUS','HOU', 45 ], ['HOU','AUS', 45 ], ['DAL','HOU', 65 ], ['HOU','DAL', 65 ]]
 
 # add the flights for T4, T5 and T6 to the list of lists below
 flight_schedule = [['T1','AUS','DAL','0600','0650'],
