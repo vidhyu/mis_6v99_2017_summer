@@ -1,2 +1,9 @@
 
-This file will contain feedback after both preliminary and final grading runs
+2017-06-30 17:56 Friday
+ Checking Directory: lab_01 File: print_flight_schedule.py
+Assignment source code file found
+Assignment source code completed a run without a stack trace
+Please check instructor_stdout.txt for stdout (if any)
+Please check instructor_stderr.txt for stderr (if any)
+Verifying that your flight_schedule.csv file matches the solution file
+Your solution file matches!
