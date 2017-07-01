@@ -1,4 +1,10 @@
 
+2017-06-30 17:55 Friday
+Checking Directory: lab_01
+Directory created correctly - please check instructor files in that directory
+
+
+
 2017-06-30 17:50 Friday
 Checking Directory: lab_01
 Directory not found (possible missing read me file)
