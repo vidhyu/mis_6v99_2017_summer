@@ -1,10 +1,23 @@
 
-2017-07-01 20:01 Saturday
+2017-07-02 10:56 Sunday
  Checking Directory: assignment_01 File: create_flight_schedule.py
 Assignment source code file found
 Assignment source code completed a run without a stack trace
 Please check instructor_stdout.txt for stdout (if any)
 Please check instructor_stderr.txt for stderr (if any)
 Attempting to read flight schedule file: flight_schedule.csv
-File not found
-Flight schedule file did not load and validate - 0 points
+[['T1', 'AUS', 'HOU', '0600', 360, '0645', 405], ['T2', 'DAL', 'HOU', '0600', 360, '0705', 425], ['T3', 'DAL', 'HOU', '0600', 360, '0705', 425], ['T4', 'HOU', 'DAL', '0600', 360, '0705', 425], ['T5', 'HOU', 'DAL', '0600', 360, '0705', 425], ['T5', 'DAL', 'HOU', '0800', 480, '0905', 545], ['T5', 'HOU', 'DAL', '0800', 480, '0905', 545], ['T5', 'DAL', 'HOU', '1000', 600, '1105', 665], ['T5', 'HOU', 'AUS', '1000', 600, '1045', 645], ['T5', 'AUS', 'DAL', '1200', 720, '1250', 770], ['T5', 'DAL', 'AUS', '1200', 720, '1250', 770], ['T5', 'AUS', 'HOU', '1400', 840, '1445', 885], ['T5', 'DAL', 'HOU', '1400', 840, '1505', 905], ['T5', 'HOU', 'DAL', '1400', 840, '1505', 905], ['T5', 'HOU', 'DAL', '1400', 840, '1505', 905], ['T5', 'DAL', 'HOU', '1600', 960, '1705', 1025], ['T5', 'HOU', 'DAL', '1600', 960, '1705', 1025], ['T5', 'DAL', 'HOU', '1800', 1080, '1905', 1145], ['T5', 'HOU', 'AUS', '1800', 1080, '1845', 1125], ['T5', 'AUS', 'DAL', '2000', 1200, '2050', 1250], ['T5', 'DAL', 'AUS', '2000', 1200, '2050', 1250], ['T6', 'HOU', 'AUS', '0600', 360, '0645', 405], ['T6', 'AUS', 'DAL', '0800', 480, '0850', 530], ['T6', 'DAL', 'AUS', '0800', 480, '0850', 530], ['T6', 'AUS', 'HOU', '1000', 600, '1045', 645], ['T6', 'DAL', 'HOU', '1000', 600, '1105', 665], ['T6', 'HOU', 'DAL', '1000', 600, '1105', 665], ['T6', 'HOU', 'DAL', '1000', 600, '1105', 665], ['T6', 'DAL', 'HOU', '1200', 720, '1305', 785], ['T6', 'HOU', 'DAL', '1200', 720, '1305', 785], ['T6', 'DAL', 'HOU', '1400', 840, '1505', 905], ['T6', 'HOU', 'AUS', '1400', 840, '1445', 885], ['T6', 'AUS', 'DAL', '1600', 960, '1650', 1010], ['T6', 'DAL', 'AUS', '1600', 960, '1650', 1010], ['T6', 'AUS', 'HOU', '1800', 1080, '1845', 1125], ['T6', 'DAL', 'HOU', '1800', 1080, '1905', 1145], ['T6', 'HOU', 'DAL', '1800', 1080, '1905', 1145], ['T6', 'HOU', 'DAL', '1800', 1080, '1905', 1145], ['T6', 'DAL', 'HOU', '2000', 1200, '2105', 1265], ['T6', 'HOU', 'DAL', '2000', 1200, '2105', 1265]]
+Successful run of program - 5 points
+Flight schedule file loaded and validated - 5 points
+Noise restrictions validated - 5 points
+Flight times validated - 5 points
+Aircraft  T5 out of position, origin of  DAL should be HOU in ['T5', 'DAL', 'HOU', '1400', 840, '1505', 905]
+Aircraft  T5 out of position, origin of  HOU should be DAL in ['T5', 'HOU', 'DAL', '1400', 840, '1505', 905]
+Aircraft  T6 out of position, origin of  DAL should be HOU in ['T6', 'DAL', 'HOU', '1000', 600, '1105', 665]
+Aircraft  T6 out of position, origin of  HOU should be DAL in ['T6', 'HOU', 'DAL', '1000', 600, '1105', 665]
+Aircraft  T6 out of position, origin of  DAL should be HOU in ['T6', 'DAL', 'HOU', '1800', 1080, '1905', 1145]
+Aircraft  T6 out of position, origin of  HOU should be DAL in ['T6', 'HOU', 'DAL', '1800', 1080, '1905', 1145]
+Ground time violations - 0 points
+Maximum aircraft per gates at airport validated - 5 points
+Aircraft are in position for the next day validated - 5 points
+Basic Criteria was not met - no further points are possible
