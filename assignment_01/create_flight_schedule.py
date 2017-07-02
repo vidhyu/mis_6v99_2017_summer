@@ -88,7 +88,7 @@ while departure_time < 2200:
         
     departure_time += 200
     count +=1
-    Gates_flights = Iteration_flights
+    Gates_flights = Iteration_flights.copy()
 
 
 flight_schedule = sorted(flight_schedule, key = lambda x: x[0] + x[3])
