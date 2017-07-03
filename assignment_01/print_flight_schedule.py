@@ -83,6 +83,7 @@ while departure_time_minutes < 1320:
         flight_schedule += [flight_details]
         Iteration_flights['HOU2'] = Gates_flights['DAL1']
         flight_time = flight_times('DAL1','HOU2')
+        
         arrival_time = arrival_time(departure_time_minutes,flight_time)
         flight_details = [Gates_flights['DAL1'],'DAL','HOU', departure_time(departure_time_minutes), arrival_time, minimum_departure_time(departure_time_minutes,arrival_time, 'HOU') ]
         flight_schedule += [flight_details]
