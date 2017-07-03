@@ -64,27 +64,43 @@ flight_schedule = []
 
 while departure_time_minutes < 1320:
     
-    if count%2 == 1:
-        Iteration_flights['HOU1'] = Gates_flights['AUS1']
-        flight_details = [Gates_flights['AUS1'],'AUS','HOU', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('AUS1','HOU1')) ]
-        flight_schedule += [flight_details]
-        Iteration_flights['HOU2'] = Gates_flights['DAL1']
-        flight_details = [Gates_flights['DAL1'],'DAL','HOU', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('DAL1','HOU2')) ]
-        flight_schedule += [flight_details]
-        Iteration_flights['HOU3'] = Gates_flights['DAL2']
-        flight_details = [Gates_flights['DAL2'],'DAL','HOU', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('DAL2','HOU3')) ]
-        flight_schedule += [flight_details]
-        Iteration_flights['DAL1'] = Gates_flights['HOU1']
-        flight_details = [Gates_flights['HOU1'],'HOU','DAL', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('HOU1','DAL1')) ]
-        flight_schedule += [flight_details]
-        Iteration_flights['DAL2'] = Gates_flights['HOU2']
-        flight_details = [Gates_flights['HOU2'],'HOU','DAL', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('HOU2','DAL2')) ]
-        flight_schedule += [flight_details]
-        Iteration_flights['AUS1'] = Gates_flights['HOU3']
-        flight_details = [Gates_flights['HOU3'],'HOU','AUS', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('HOU3','AUS1')) ]
-        flight_schedule += [flight_details]
+    if departure_time_minutes < 1260:
+        if count%2 == 1:
+            Iteration_flights['HOU1'] = Gates_flights['AUS1']
+            flight_details = [Gates_flights['AUS1'],'AUS','HOU', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('AUS1','HOU1')) ]
+            flight_schedule += [flight_details]
+            Iteration_flights['HOU2'] = Gates_flights['DAL1']
+            flight_details = [Gates_flights['DAL1'],'DAL','HOU', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('DAL1','HOU2')) ]
+            flight_schedule += [flight_details]
+            Iteration_flights['HOU3'] = Gates_flights['DAL2']
+            flight_details = [Gates_flights['DAL2'],'DAL','HOU', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('DAL2','HOU3')) ]
+            flight_schedule += [flight_details]
+            Iteration_flights['DAL1'] = Gates_flights['HOU1']
+            flight_details = [Gates_flights['HOU1'],'HOU','DAL', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('HOU1','DAL1')) ]
+            flight_schedule += [flight_details]
+            Iteration_flights['DAL2'] = Gates_flights['HOU2']
+            flight_details = [Gates_flights['HOU2'],'HOU','DAL', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('HOU2','DAL2')) ]
+            flight_schedule += [flight_details]
+            Iteration_flights['AUS1'] = Gates_flights['HOU3']
+            flight_details = [Gates_flights['HOU3'],'HOU','AUS', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('HOU3','AUS1')) ]
+            flight_schedule += [flight_details]
+        
    
     
+        else:
+            Iteration_flights['DAL1'] = Gates_flights['AUS1']
+            flight_details = [Gates_flights['AUS1'],'AUS','DAL', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('AUS1','DAL1')) ]
+            flight_schedule += [flight_details]
+            Iteration_flights['AUS1'] = Gates_flights['DAL1']
+            flight_details = [Gates_flights['DAL1'],'DAL','AUS', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('DAL1','AUS1')) ]
+            flight_schedule += [flight_details]
+            Iteration_flights['HOU1'] = Gates_flights['DAL2']
+            flight_details = [Gates_flights['DAL2'],'DAL','HOU', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('DAL2','HOU1')) ]
+            flight_schedule += [flight_details]
+            Iteration_flights['DAL2'] = Gates_flights['HOU1']
+            flight_details = [Gates_flights['HOU1'],'HOU','DAL', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('HOU1','DAL2')) ]
+            flight_schedule += [flight_details]
+        
     else:
         Iteration_flights['DAL1'] = Gates_flights['AUS1']
         flight_details = [Gates_flights['AUS1'],'AUS','DAL', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('AUS1','DAL1')) ]
@@ -92,12 +108,8 @@ while departure_time_minutes < 1320:
         Iteration_flights['AUS1'] = Gates_flights['DAL1']
         flight_details = [Gates_flights['DAL1'],'DAL','AUS', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('DAL1','AUS1')) ]
         flight_schedule += [flight_details]
-        Iteration_flights['HOU1'] = Gates_flights['DAL2']
-        flight_details = [Gates_flights['DAL2'],'DAL','HOU', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('DAL2','HOU1')) ]
-        flight_schedule += [flight_details]
-        Iteration_flights['DAL2'] = Gates_flights['HOU1']
-        flight_details = [Gates_flights['HOU1'],'HOU','DAL', departure_time(departure_time_minutes), arrival_time(departure_time_minutes,flight_times('HOU1','DAL2')) ]
-        flight_schedule += [flight_details]
+
+    
         
     departure_time_minutes += 100
     count +=1
