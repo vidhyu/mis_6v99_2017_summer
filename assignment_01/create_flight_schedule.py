@@ -1,11 +1,6 @@
 # first Assignment
 csv_header = 'tail_number,origin,destination,departure_time,arrival_time'
 file_name = 'flight_schedule.csv'
-def print_flight_schedule(fn, csv_hdr, flt_sched):
-    with open(fn,'wt') as f:
-        print(csv_hdr, file=f)
-        for s in flt_sched:
-            print(','.join(s), file=f)
 
 def print_flight_schedule(fn, csv_hdr, flt_sched):
     with open(fn,'wt') as f:
