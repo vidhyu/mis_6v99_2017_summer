@@ -111,7 +111,7 @@ while departure_time_minutes < 1320:
 
     
         
-    departure_time_minutes += 100
+    departure_time_minutes += 101
     count +=1
     Gates_flights = Iteration_flights.copy()
 
