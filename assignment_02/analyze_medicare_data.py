@@ -108,6 +108,18 @@ c1.execute(sql_str,sql_tuple)
 conn.commit() #one commit at end will suffice to load the entire data
 
 
+fn = os.path.join(staging_dir_name, "Timely and Effective Care - Hospital.csv")
+in_fp = open(fn, "rt", encoding = 'cp1252') #in_fp is input file , rt is read text
+input_data = in_fp.read()
+in_fp.close()
+
+ofn = os.path.join(staging_dir_name, "Timely and Effective Care - Hospital.csv.fix")
+out_fp = open(ofn, "wt", encoding = 'utf-8') #in_fp is input file , rt is read text
+for c in input_data:
+    if c!= '\0':
+        out_fp.write(c)
+out_fp.close()
+
 
 
 
