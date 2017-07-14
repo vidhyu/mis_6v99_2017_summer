@@ -80,6 +80,7 @@ Provider ID | Ranking
 450804 | 77
 110200 | 78
 040147 | 79
+<<<<<<< HEAD
 370210 | 80
 330270 | 81
 161301 | 82
@@ -390,5 +391,8 @@ Provider ID | Ranking
 150058 | 387
 150023 | 388
 140
+=======
+
+>>>>>>> 06f0de263d68887e3b2a548e05cc44bb7d8a84d5
 
 ....stdout limited by GitHub API limit
