@@ -1,0 +1,8 @@
+array: [[ 0  1  2  3  4]
+ [ 5  6  7  8  9]
+ [10 11 12 13 14]]
+array shape: (3, 5)
+array size: 15
+array item size: 8
+array number of dimensions 2
+array data type: int64
