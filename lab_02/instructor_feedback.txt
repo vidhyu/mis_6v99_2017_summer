@@ -1,2 +1,40 @@
 
-This file will contain feedback after both preliminary and final grading runs
+2017-07-17 17:21 Monday
+ Checking Directory: lab_02 File: demo_numpy.py
+Assignment source code file found
+Assignment source code completed a run without a stack trace
+Please check instructor_stdout.txt for stdout (if any)
+Please check instructor_stderr.txt for stderr (if any)
+Successful run of program without stack trace = 5 points
+Verifying that your demo_numpy.txt file exists and matches the solution file
+Line does not match the solution file
+Your line:  array: [[ 0  1  2  3  4]
+
+Solution line:  [[ 0  1  2  3  4]
+
+Line does not match the solution file
+Your line:  array shape: (3, 5)
+
+Solution line:  (3, 5)
+
+Line does not match the solution file
+Your line:  array size: 15
+
+Solution line:  15
+
+Line does not match the solution file
+Your line:  array item size: 8
+
+Solution line:  8
+
+Line does not match the solution file
+Your line:  array number of dimensions 2
+
+Solution line:  2
+
+Line does not match the solution file
+Your line:  array data type: int64
+
+Solution line:  int64
+
+Your solution file does not match = 0 points
