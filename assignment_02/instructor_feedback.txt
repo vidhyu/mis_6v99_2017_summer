@@ -1,17 +1,7 @@
 
-<<<<<<< HEAD
-2017-07-13 08:48 Thursday
-=======
-2017-07-14 12:39 Friday
->>>>>>> 06f0de263d68887e3b2a548e05cc44bb7d8a84d5
+2017-07-18 09:15 Tuesday
  Checking Directory: assignment_02 File: analyze_medicare_data.py
 Assignment source code file found
-Assignment source code completed a run without a stack trace
+Assignment source code was run and generated a stack trace
 Please check instructor_stdout.txt for stdout (if any)
 Please check instructor_stderr.txt for stderr (if any)
-Successful run of program without stack trace = 5 points
-source lines: 67
-comment lines: 9
-Documentation ratio of source code to comments is more than 5 to 1 = 0 points
-sqlite3 database: medicare_hospital_compare.db not correctly created = 0 points
-No further checks are possible
