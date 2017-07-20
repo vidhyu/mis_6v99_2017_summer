@@ -36,126 +36,79 @@ z.close()
 
 # Step2 : Create a SQLite DB to fill the data
 
-conn = sqlite3.connect("medicare_hospital_compare.db") #connection to open db, if the db doesn't exist it creates a new one.
-
-c1 = conn.cursor()  # Once you have a Connection, you can create a Cursor object and call its execute() method to perform SQL commands
-
 glob_dir = os.path.join(staging_dir_name,"*.csv")  # to get list of csv files
+valid_characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 for file_name in glob.glob(glob_dir):
-    Table_name = os.path.splitext(os.path.basename(file_name))[0]
-    with open(file_name) as csvfile:
-        reader = csv.DictReader(csvfile) #Create an object which operates like a regular reader but maps the information read into a dict whose keys are given by the optional fieldnames parameter
+    #fn = os.path.join(staging_dir_name, file_name)
+    in_fp = open(file_name, "rt", encoding = 'cp1252') #in_fp is input file , rt is read text
+    input_data = in_fp.read()
+    in_fp.close()
+    
+    ofn = file_name + ".fix"
+    out_fp = open(ofn, "wt", encoding = 'utf-8') #in_fp is input file , rt is read text
+    header = True
+    for row in input_data:
+        if header:
+            # gather column names from the first row of the csv
+            header = False
+            for column in row:
+                if column[0] not in valid_characters:
+                    out_fp.write( "c_" + column)
+    for c in input_data:
+        if c!= '\0':
+            out_fp.write(c)
+    out_fp.close()
+    
+glob_dir = os.path.join(staging_dir_name,"*.csv.fix")
+
+conn = sqlite3.connect("medicare_hospital_compare.db") #connection to open db, if the db doesn't exist it creates a new one.
+conn.text_factory = str
+c1 = conn.cursor()  # Once you have a Connection, you can create a Cursor object and call its execute() method to perform SQL commands
+
+for csvfile in glob.glob(glob_dir):
+    # remove the path and extension and use what's left as a table name
+    tablename = os.path.splitext(os.path.basename(csvfile))[0]
+    tablename = tablename.replace(' ', '_').replace('-','_').replace('%','pct').replace('/','_').lower()
+    if tablename[0] not in valid_characters:
+        tablename = "t_"+ tablename
+    print(csvfile)
+    print(tablename)
+ 
+    with open(csvfile, "r") as f:
+        reader = csv.reader(f)
+ 
+        header = True
         for row in reader:
-            print(row['first_name'], row['last_name'])
-
-
-with open(file_name, newline='', encoding='utf-8') as f:
-    reader = csv.reader(f)
-    for row in reader:
-        print(row)
-
-
-sql_str = """
-create table if not exists my_table(
-column_1 text,
-column_2 text,
-column_3 text
-)
-"""
-
-c1.execute(sql_str)
-
-sql_str = "insert into my_table(column_1, column_2, column_3) values(?,?,?)"
-sql_tuple = ('a','b','c')
-c1.execute(sql_str,sql_tuple)
-
-
-conn.commit() #one commit at end will suffice to load the entire data
-
-
-fn = os.path.join(staging_dir_name, "Timely and Effective Care - Hospital.csv")
-in_fp = open(fn, "rt", encoding = 'cp1252') #in_fp is input file , rt is read text
-input_data = in_fp.read()
-in_fp.close()
-
-ofn = os.path.join(staging_dir_name, "Timely and Effective Care - Hospital.csv.fix")
-out_fp = open(ofn, "wt", encoding = 'utf-8') #in_fp is input file , rt is read text
-for c in input_data:
-    if c!= '\0':
-        out_fp.write(c)
-out_fp.close()
-
-
-
-
-
-
-
-k_url = "http://kevincrook.com/utd/hospital_ranking_focus_states.xlsx"
-
-r = requests.get(k_url)
-
-xf = open("hospital_ranking_focus_states.xlsx", "wb")
-
-xf.write(r.content)
-
-xf.close()
-
-wb = openpyxl.load_workbook("hospital_ranking_focus_states.xlsx")
-
-for sheet_name in wb.get_sheet_names():
-    print(sheet_name)
-    
-sheet = wb.get_sheet_by_name("Hospital National Ranking")
-
-i = 1
-while sheet.cell(row = i, column = 1).value !=None:
-    print(sheet.cell(row = i, column = 1).value, "|", sheet.cell(row = i, column = 2).value)
-    i +=1
-    
-    
-sheet2 = wb.get_sheet_by_name("Focus States")
-
-i = 1
-while sheet2.cell(row = i, column = 1).value !=None:
-    print(sheet2.cell(row = i, column = 1).value, "|", sheet2.cell(row = i, column = 2).value)
-    i +=1
-    
-#creating a workbook
-wb2 = openpyxl.Workbook()
-
-
-
-sheet_1 = wb2.create_sheet("utd")
-
-sheet_1.cell(row = 1, column = 1, value = "BUAN")
-
-for i in range(2,11):
-    sheet_1.cell(row = i, column=1,value = i-1)
-    
-sheet_2 = wb2.create_sheet("test")
-
-sheet_2.cell(row = 1, column= 2, value = "valued")
-
-for i in range(2,11):
-    sheet_2.cell(row = i*2, column=i*2,value = i*2-1)
-    
-#remove sheet in xl
-wb2.remove_sheet(wb2.get_sheet_by_name('Sheet'))
-
-wb2.save("test.xlsx")
-
-wb2.close()
-
-openpyxl.__version__
-
-
-
-
-
-
-
+            if header:
+                # gather column names from the first row of the csv
+                header = False
+                
+                for column in row:
+                    if column[0] not in valid_characters:
+                        column = "c_" + column
+ 
+                sql = "DROP TABLE IF EXISTS '" + tablename + "'"
+                c1.execute(sql)
+                sql = "CREATE TABLE " + tablename + "(" + ",".join(column+ " text" for column in row) + ")"
+        
+                c1.execute(sql)
+ 
+               
+ 
+                insertsql = "INSERT INTO %s VALUES (%s)" % (tablename,
+                            ", ".join([ "?" for column in row ]))
+ 
+                rowlen = len(row)
+            else:
+                # skip lines that don't have the right number of columns
+                if len(row) == rowlen:
+                    c1.execute(insertsql, row)
+ 
+        conn.commit()
+ 
+c1.close()
+conn.close()
 
 
 
