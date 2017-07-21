@@ -47,6 +47,11 @@ for file_name in glob.glob(glob_dir):
     in_fp = open(file_name, "rt", encoding = 'cp1252') #in_fp is input file , rt is read text
     input_data = in_fp.read()
     input_data = input_data.replace('"', '').replace(' ', '_').replace('-','_').replace('%','pct').replace('/','_').lower().replace('''""''', '_')
+    column_name_change = input_data.split("\n")[0].split(',')
+    column_name_change = [x if x[0] in valid_characters else 'c_'+ x for x in column_name_change]
+    column_name_change = ','.join(column_name_change)
+    input_data = input_data.split('\n', 1)[-1]
+    input_data = column_name_change + '\n' + input_data
     in_fp.close()
     
     
