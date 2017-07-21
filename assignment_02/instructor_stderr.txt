@@ -1,4 +1,4 @@
 Traceback (most recent call last):
-  File "analyze_medicare_data.py", line 50, in <module>
-    print(row['first_name'], row['last_name'])
-KeyError: 'first_name'
+  File "analyze_medicare_data.py", line 49, in <module>
+    input_data = input_data.replace('"', '').replace(' ', '_').replace('-','_').replace('%','pct').replace('/','_').lower().replace('''""''', '_')
+MemoryError
