@@ -9,16 +9,14 @@ import sqlite3  # for sqlite DB
 import glob     # glob patterns specify sets of filenames with wildcard characters
 import getpass
 import csv      # To work with CSV files
-
-
-
+  
 # Step1 : Downloading and Extracting CSV files from data.medicare.gov
 
 url = "https://data.medicare.gov/views/bg9k-emty/files/0a9879e0-3312-4719-a1db-39fd114890f1?content_type=application%2Fzip%3B%20charset%3Dbinary&filename=Hospital_Revised_Flatfiles.zip"
 
 r = requests.get(url) # this will connect to the url
 
-staging_dir_name = "staging"
+staging_dir_name = "staging" #directory name
 
 os.mkdir(staging_dir_name)  # mkdir will make the directory if it doesn't exist in the path
 
@@ -32,79 +30,55 @@ zf.close() # closes the file
 
 z = zipfile.ZipFile(zip_file_name,'r') # Open a ZIP file, where file can be either a path to a file (a string) or a file-like object. The mode parameter should be 'r' to read an existing file, 'w' to truncate and write a new file, or 'a' to append to an existing file.
 
-z.extractall(staging_dir_name) 
+z.extractall(staging_dir_name) #extracts all the files in staging
 
 z.close()
-
 
 # Step2 : Create a SQLite DB to fill the data
 
 glob_dir = os.path.join(staging_dir_name,"*.csv")  # to get list of csv files
 valid_characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
-for file_name in glob.glob(glob_dir):
-    #fn = os.path.join(staging_dir_name, file_name)
-    in_fp = open(file_name, "rt", encoding = 'cp1252') #in_fp is input file , rt is read text
-    input_data = in_fp.read()
-    input_data = input_data.replace('"', '').replace(' ', '_').replace('-','_').replace('%','pct').replace('/','_').lower().replace('''""''', '_')
-    column_name_change = input_data.split("\n")[0].split(',')
-    column_name_change = [x if x[0] in valid_characters else 'c_'+ x for x in column_name_change]
-    column_name_change = ','.join(column_name_change)
-    input_data = input_data.split('\n', 1)[-1]
-    input_data = column_name_change + '\n' + input_data
-    in_fp.close()
-    
-    
-    ofn = file_name + "modified"
-    out_fp = open(ofn, "wt", encoding = 'utf-8') #in_fp is input file , rt is read text      
-    for c in input_data:
-        if c!= '\0':
-            out_fp.write(c)
-    out_fp.close()
-    
-glob_dir = os.path.join(staging_dir_name,"*.csvmodified")
-
 conn = sqlite3.connect("medicare_hospital_compare.db") #connection to open db, if the db doesn't exist it creates a new one.
 conn.text_factory = str
 c1 = conn.cursor()  # Once you have a Connection, you can create a Cursor object and call its execute() method to perform SQL commands
 
-for csvfile in glob.glob(glob_dir):
-    # remove the path and extension and use what's left as a table name
-    tablename = os.path.splitext(os.path.basename(csvfile))[0]
-    tablename = tablename.replace(' ', '_').replace('-','_').replace('%','pct').replace('/','_').lower().replace('''""''', '_')
-    if tablename[0] not in valid_characters:
-        tablename = "t_"+ tablename
-    print(csvfile)
-    print(tablename)
- 
-    with open(csvfile, "r") as f:
-        reader = csv.reader(f, delimiter=',', skipinitialspace=True)
- 
-        header = True
-        for row in reader:
-            if header:
-                # gather column names from the first row of the csv
-                header = False
- 
-                sql = "DROP TABLE IF EXISTS '" + tablename + "'"
-                c1.execute(sql)
-                sql = "CREATE TABLE " + tablename + "(" + ",".join(column+ " text" for column in row) + ")"
-        
-                c1.execute(sql)
- 
-               
- 
+for file_name in glob.glob(glob_dir):
+    tablename = os.path.splitext(os.path.basename(file_name))[0] # remove the path and extension and use what's left as a table name
+    if not(tablename == "FY2015_Percent_Change_in_Medicare_Payments"):  #removing the corrupt file from iterations
+    
+        tablename = tablename.replace(' ', '_').replace('-','_').replace('%','pct').replace('/','_').lower().replace('''""''', '_')
+        if tablename[0] not in valid_characters:   #cross-checking the first letter of tablename to be in valid_characters
+            tablename = "t_"+ tablename
+    
+        with open(file_name, "rt", encoding = 'cp1252') as f:
+            reader = csv.reader(f, delimiter=',', skipinitialspace=True)
+            header = next(reader)  #takes the first row as header
+            header = ','.join(header)
+            header = header.replace('"', '').replace(' ', '_').replace('-','_').replace('%','pct').replace('/','_').lower().replace('''""''', '_')   
+            header = header.split(',')
+            header = [x if x[0] in valid_characters else 'c_'+ x for x in header]
+            #checking for existing tablenames and create tables
+            sql = "DROP TABLE IF EXISTS '" + tablename + "'"
+            c1.execute(sql)
+            sql = "CREATE TABLE " + tablename + "(" + ",".join(column+ " text" for column in header) + ")"
+            c1.execute(sql)
+            #inserting values in created tables using the other data after stripping the header
+            for row in reader:
                 insertsql = "INSERT INTO %s VALUES (%s)" % (tablename,
-                            ", ".join([ "?" for column in row ]))
- 
-                rowlen = len(row)
-            else:
-                # skip lines that don't have the right number of columns
-                if len(row) == rowlen:
+                                               ", ".join([ "?" for column in row ]))
+                if len(row) != 1:           #if the end of the file has blank rows, the insert query fails because blank values cannot be put into all columns
                     c1.execute(insertsql, row)
- 
+                    
         conn.commit()
- 
+
 c1.close()
 conn.close()
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
