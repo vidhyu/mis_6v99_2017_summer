@@ -7,9 +7,10 @@ import zipfile  # module for Zip and Unzip file functions
 import openpyxl # create/delete xl files. openpyxl is a pure python reader and writer of Excel OpenXML files (`.xlsx`, `.xlsm`).
 import sqlite3  # for sqlite DB
 import glob     # glob patterns specify sets of filenames with wildcard characters
-import getpass
+import itertools as it  
 import csv      # To work with CSV files
-  
+import numpy as np
+ 
 # Step1 : Downloading and Extracting CSV files from data.medicare.gov
 
 url = "https://data.medicare.gov/views/bg9k-emty/files/0a9879e0-3312-4719-a1db-39fd114890f1?content_type=application%2Fzip%3B%20charset%3Dbinary&filename=Hospital_Revised_Flatfiles.zip"
@@ -251,3 +252,192 @@ wb2.remove_sheet(wb2.get_sheet_by_name('Sheet'))
 wb2.save("hospital_ranking.xlsx")
 
 wb2.close()
+
+
+
+#step 4 : Creating measures_statistics.xlsx
+
+
+#creating a workbook
+wb3 = openpyxl.Workbook()
+
+
+#creating first sheet and inserting values
+sheet_1 = wb3.create_sheet("Nationwide") 
+
+sql = "select measure_id, measure_name, min(score) as minimum, max(score) as maximum, avg(score) as Average from timely_and_effective_care___hospital where length(score) < 5 group by measure_id, measure_name;"
+
+
+result = [c.execute(sql)]
+db_data = []
+for row in result:
+    for column in row:
+        data = [column]
+        db_data = db_data + data
+
+        
+i = len(db_data)
+
+#creating first column and inserting values
+sheet_1.cell(row = 1, column = 1, value = "Measure ID")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=1, value = db_data[x-2][0])
+
+#creating second column and inserting values
+sheet_1.cell(row = 1, column = 2, value = "Measure Name")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=2, value = db_data[x-2][1])
+    
+
+#creating third column and inserting values
+sheet_1.cell(row = 1, column = 3, value = "Minimum")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=3, value = db_data[x-2][2])
+    
+
+#creating fourth column and inserting values
+sheet_1.cell(row = 1, column = 4, value = "Maximum")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=4, value = db_data[x-2][3])
+    
+    
+#creating fifth column and inserting values
+sheet_1.cell(row = 1, column = 5, value = "Average")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=5, value = db_data[x-2][4])
+
+  
+#fetching data for calculating std dev
+
+sql = "select measure_id, score from timely_and_effective_care___hospital where length(score) < 5 order by measure_id;"
+
+result = [c.execute(sql)]
+std_data = []
+for row in result:
+    for column in row:
+        data = list(column)
+        std_data = std_data + [data]
+        
+        
+for i in range(len(std_data)):
+    std_data[i][1] = int(float(std_data[i][1]))
+    
+
+std_dict = {k:list(x[1] for x in v) for k,v in it.groupby(sorted(std_data), key=lambda x: x[0])}
+
+std_dev = []
+for j in std_dict:
+    arr = np.array(std_dict[j])
+    x = np.std(arr, axis=0)
+    std_dev = std_dev + [x]
+
+i = len(std_dev)    
+#creating sixth column and inserting values
+sheet_1.cell(row = 1, column = 6, value = "Standard Deviation")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=6, value = std_dev[x-2])
+    
+
+
+    
+#creating sheets with state names and inserting values
+for x in state_names:
+    z = wb3.create_sheet(state_names[x])
+    
+    sql = "select measure_id, measure_name, min(score) as minimum, max(score) as maximum, avg(score) as Average from timely_and_effective_care___hospital where state = '" + x + "' and length(score) < 5 group by measure_id, measure_name;"
+         
+    result = [c.execute(sql)]
+    db_data = []
+    for row in result:
+        for column in row:
+            data = [column]
+            db_data = db_data + data
+    
+    
+    i = len(db_data)
+
+    #creating first column and inserting values
+    z.cell(row = 1, column = 1, value = "Measure ID")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=1, value = db_data[y-2][0])
+
+#creating second column and inserting values
+    z.cell(row = 1, column = 2, value = "Measure Name")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=2, value = db_data[y-2][1])
+    
+
+#creating third column and inserting values
+    z.cell(row = 1, column = 3, value = "Minimum")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=3, value = db_data[y-2][2])
+    
+
+#creating fourth column and inserting values
+    z.cell(row = 1, column = 4, value = "Maximum")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=4, value = db_data[y-2][3])
+    
+    
+#creating fifth column and inserting values
+    z.cell(row = 1, column = 5, value = "Average")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=5, value = db_data[y-2][4])
+
+    
+#creating sixth column and inserting values
+    sql = "select measure_id, score from timely_and_effective_care___hospital where state = '" + x + "' and length(score) < 5 order by measure_id;"
+
+    result = [c.execute(sql)]
+    std_data = []
+    for row in result:
+        for column in row:
+            data = list(column)
+            std_data = std_data + [data]
+        
+        
+    for i in range(len(std_data)):
+        std_data[i][1] = int(float(std_data[i][1]))
+    
+
+    std_dict = {k:list(x[1] for x in v) for k,v in it.groupby(sorted(std_data), key=lambda x: x[0])}
+
+    std_dev = []
+    for j in std_dict:
+        arr = np.array(std_dict[j])
+        x = np.std(arr, axis=0)
+        std_dev = std_dev + [x]
+        
+    i = len(std_dev)
+    #creating sixth column and inserting values
+    z.cell(row = 1, column = 6, value = "Standard Deviation")
+
+    for x in range(2,i+2):
+        z.cell(row = x, column=6, value = std_dev[x-2])
+    
+    
+      
+    
+#remove sheet in xl
+wb3.remove_sheet(wb3.get_sheet_by_name('Sheet'))
+
+wb3.save("measures_statistics.xlsx")
+
+wb3.close()
+
+
+conn.commit()
+
+c.close()
+conn.close()
