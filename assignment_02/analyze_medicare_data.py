@@ -74,7 +74,176 @@ for file_name in glob.glob(glob_dir):
 c1.close()
 conn.close()
     
+#step 3 : hospital ranking excel
+
+
+k_url = "http://kevincrook.com/utd/hospital_ranking_focus_states.xlsx"
+
+r = requests.get(k_url)
+
+xf = open("hospital_ranking_focus_states.xlsx", "wb")
+
+xf.write(r.content)
+
+xf.close()
+
+wb = openpyxl.load_workbook("hospital_ranking_focus_states.xlsx")
     
+sheet1 = wb.get_sheet_by_name("Hospital National Ranking")  #opening the sheet
+
+#reading the data of first sheet to a dictionary
+i = 1
+provider_id = {}
+while sheet1.cell(row = i+1, column = 1).value !=None:
+    line = {sheet1.cell(row = i+1, column = 1).value: sheet1.cell(row = i+1, column = 2).value}
+    provider_id = {**provider_id, **line}
+    i +=1
+
+# making the string of top 100 ranked provider_ids 
+empty_list = []
+for x in provider_id:
+    test = ["'" + x + "'"]
+    empty_list = empty_list + test
+final_list = empty_list[:100]
+final_list = ','.join(final_list)
+
+#reading the second sheet
+sheet2 = wb.get_sheet_by_name("Focus States")
+
+#reading the data of second sheet to a dictionary
+state_names = {}
+i = 1
+while sheet2.cell(row = i+1, column = 1).value !=None:
+    line = {sheet2.cell(row = i+1, column = 2).value : sheet2.cell(row = i+1, column = 1).value}
+    state_names = {**state_names, **line} #each * indicate offset and value
+    i +=1
+    
+#creating a workbook
+wb2 = openpyxl.Workbook()
+
+
+#creating first sheet and inserting values
+sheet_1 = wb2.create_sheet("Nationwide")
+
+conn = sqlite3.connect("medicare_hospital_compare.db")
+c = conn.cursor() 
+
+#query to pull top 100 ranked provider_ids and saving it to a list
+sql = "select provider_id, hospital_name, city, state, county_name from hospital_general_information where provider_id in (" + final_list + ")"             
+result = [c.execute(sql)]
+db_data = []
+for row in result:
+    for column in row:
+        data = [column]
+        db_data = db_data + data
+
+        
+i = len(db_data)
+
+#creating first column and inserting values
+sheet_1.cell(row = 1, column = 1, value = "Provider ID")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=1, value = db_data[x-2][0])
+
+#creating second column and inserting values
+sheet_1.cell(row = 1, column = 2, value = "Hospital Name")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=2, value = db_data[x-2][1])
+    
+
+#creating third column and inserting values
+sheet_1.cell(row = 1, column = 3, value = "City")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=3, value = db_data[x-2][2])
+    
+
+#creating fourth column and inserting values
+sheet_1.cell(row = 1, column = 4, value = "State")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=4, value = db_data[x-2][3])
+    
+    
+#creating fifth column and inserting values
+sheet_1.cell(row = 1, column = 5, value = "County")
+
+for x in range(2,i+2):
+    sheet_1.cell(row = x, column=5, value = db_data[x-2][4])
+    
+
+#creating sheets with state names and inserting values
+for x in state_names:
+    z = wb2.create_sheet(state_names[x])
+    
+    sql = "select provider_id, hospital_name, city, state, county_name from hospital_general_information where state = '" + x + "' limit 100"          
+    result = [c.execute(sql)]
+    db_data = []
+    for row in result:
+        for column in row:
+            data = [column]
+            db_data = db_data + data
+
+    
+    rank = []
+    for row in db_data:
+        dummy = list(row) + [provider_id[row[0]]]
+        rank = rank + [dummy]
+    
+    sort_rank = sorted(rank, key=lambda k: k[5])
+
+    rank_removed = []
+    for row in sort_rank:
+        y = row[:5]
+        rank_removed = rank_removed + [y]
+    
+    
+    i = len(rank_removed)
+
+    #creating first column and inserting values
+    z.cell(row = 1, column = 1, value = "Provider ID")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=1, value = rank_removed[y-2][0])
+
+    #creating second column and inserting values
+    z.cell(row = 1, column = 2, value = "Hospital Name")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=2, value = rank_removed[y-2][1])
+    
+
+    #creating third column and inserting values
+    z.cell(row = 1, column = 3, value = "City")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=3, value = rank_removed[y-2][2])
+    
+
+    #creating fourth column and inserting values
+    z.cell(row = 1, column = 4, value = "State")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=4, value = rank_removed[y-2][3])
+    
+    
+    #creating fifth column and inserting values
+    z.cell(row = 1, column = 5, value = "County")
+
+    for y in range(2,i+2):
+        z.cell(row = y, column=5, value = rank_removed[y-2][4])
+    
+
+    
+#remove sheet in xl
+wb2.remove_sheet(wb2.get_sheet_by_name('Sheet'))
+
+wb2.save("hospital_ranking.xlsx")
+
+wb2.close()
+  
     
     
     
