@@ -187,7 +187,7 @@ for x in range(2,i+2):
 for x in state_names:
     z = wb2.create_sheet(state_names[x])
     
-    sql = "select provider_id, hospital_name, city, state, county_name from hospital_general_information where state = '" + x + "' limit 100"          
+    sql = "select provider_id, hospital_name, city, state, county_name from hospital_general_information where state = '" + x + "'"          
     result = [c.execute(sql)]
     db_data = []
     for row in result:
@@ -209,7 +209,7 @@ for x in state_names:
         rank_removed = rank_removed + [y]
     
     
-    i = len(rank_removed)
+    i = len(rank_removed[:100])
 
     #creating first column and inserting values
     z.cell(row = 1, column = 1, value = "Provider ID")
