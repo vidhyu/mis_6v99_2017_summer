@@ -1,1 +1,4 @@
-Intel MKL FATAL ERROR: Cannot load /home/ancuser/anaconda3/lib/python3.6/site-packages/numexpr/../../../libmkl_rt.so.
+Traceback (most recent call last):
+  File "analyze_medicare_data.py", line 21, in <module>
+    #Extract all the csv files except the corrupt one to the 'staging' folder
+FileNotFoundError: [Errno 2] No such file or directory: 'staging'
