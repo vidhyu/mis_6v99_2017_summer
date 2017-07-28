@@ -1,5 +1,5 @@
 
-2017-07-23 14:57 Sunday
+2017-07-24 10:58 Monday
  Checking Directory: assignment_02 File: analyze_medicare_data.py
 Assignment source code file found
 Assignment source code completed a run without a stack trace
@@ -11,45 +11,5 @@ sqlite3 database: medicare_hospital_compare.db correctly created = 5 points
 All csv files in the Medicare hospital compare database have a staging table = 5 points
 All staging tables have all columns in the corresponding csv file = 5 points
 All data from all csv files correctly loaded into staging tables = 10 points
-Sheet: California Row: 2 Column: 1 Value: 050145 should be 050238
-Sheet: California Row: 2 Column: 2 Value: COMMUNITY HOSPITAL OF THE MONTEREY PENINSULA should be METHODIST HOSPITAL OF SOUTHERN CA
-Sheet: California Row: 3 Column: 1 Value: 050100 should be 050396
-Sheet: California Row: 3 Column: 2 Value: SHARP MEMORIAL HOSPITAL should be SANTA BARBARA COTTAGE HOSPITAL
-Sheet: California Row: 4 Column: 1 Value: 050007 should be 050324
-Sheet: California Row: 4 Column: 2 Value: MILLS-PENINSULA MEDICAL CENTER should be SCRIPPS MEMORIAL HOSPITAL LA JOLLA
-Sheet: California Row: 5 Column: 1 Value: 050197 should be 050145
-Sheet: California Row: 5 Column: 2 Value: SEQUOIA HOSPITAL should be COMMUNITY HOSPITAL OF THE MONTEREY PENINSULA
-Sheet: Florida Row: 3 Column: 1 Value: 100177 should be 100267
-Sheet: Florida Row: 3 Column: 2 Value: CAPE CANAVERAL HOSPITAL should be ENGLEWOOD COMMUNITY HOSPITAL
-Sheet: Florida Row: 4 Column: 1 Value: 100151 should be 100177
-Sheet: Florida Row: 4 Column: 2 Value: MAYO CLINIC should be CAPE CANAVERAL HOSPITAL
-Sheet: Florida Row: 5 Column: 1 Value: 100068 should be 100316
-Sheet: Florida Row: 5 Column: 2 Value: FLORIDA HOSPITAL MEMORIAL MEDICAL CENTER should be PALM BAY HOSPITAL
-Sheet: Illinois Row: 5 Column: 1 Value: 140116 should be 140291
-Sheet: Illinois Row: 5 Column: 2 Value: CENTEGRA HEALTH SYSTEM - MC HENRY HOSPITAL should be ADVOCATE GOOD SHEPHERD HOSPITAL
-Sheet: New York Row: 2 Column: 1 Value: 330191 should be 330270
-Sheet: New York Row: 2 Column: 2 Value: GLENS FALLS HOSPITAL should be HOSPITAL FOR SPECIAL SURGERY
-Sheet: New York Row: 3 Column: 1 Value: 330162 should be 330191
-Sheet: New York Row: 3 Column: 2 Value: NORTHERN WESTCHESTER HOSPITAL should be GLENS FALLS HOSPITAL
-Sheet: New York Row: 4 Column: 1 Value: 330164 should be 330162
-Sheet: New York Row: 4 Column: 2 Value: HIGHLAND HOSPITAL should be NORTHERN WESTCHESTER HOSPITAL
-Sheet: New York Row: 5 Column: 1 Value: 330079 should be 330164
-Sheet: New York Row: 5 Column: 2 Value: ADIRONDACK MEDICAL CENTER should be HIGHLAND HOSPITAL
-Sheet: Ohio Row: 3 Column: 1 Value: 360180 should be 360348
-Sheet: Ohio Row: 3 Column: 2 Value: CLEVELAND CLINIC should be DUBLIN METHODIST HOSPITAL
-Sheet: Ohio Row: 4 Column: 1 Value: 360095 should be 360262
-Sheet: Ohio Row: 4 Column: 2 Value: BLANCHARD VALLEY HOSPITAL should be MERCY ST ANNE HOSPITAL
-Sheet: Ohio Row: 5 Column: 1 Value: 360091 should be 361307
-Sheet: Ohio Row: 5 Column: 2 Value: MEDINA HOSPITAL should be UHHS MEMORIAL HOSPITAL OF GENEVA
-Sheet: Pennsylvania Row: 4 Column: 1 Value: 390168 should be 390326
-Sheet: Pennsylvania Row: 4 Column: 2 Value: BUTLER MEMORIAL HOSPITAL should be ST LUKE'S HOSPITAL - ANDERSON CAMPUS
-Sheet: Pennsylvania Row: 5 Column: 1 Value: 390163 should be 390228
-Sheet: Pennsylvania Row: 5 Column: 2 Value: ACMH HOSPITAL should be ST CLAIR HOSPITAL
-Sheet: Texas Row: 3 Column: 1 Value: 450184 should be 450431
-Sheet: Texas Row: 3 Column: 2 Value: MEMORIAL HERMANN HOSPITAL SYSTEM should be ST DAVID'S MEDICAL CENTER
-Sheet: Texas Row: 4 Column: 1 Value: 450087 should be 670055
-Sheet: Texas Row: 4 Column: 2 Value: NORTH HILLS HOSPITAL should be METHODIST STONE OAK HOSPITAL
-Sheet: Texas Row: 5 Column: 1 Value: 450054 should be 450779
-Sheet: Texas Row: 5 Column: 2 Value: SCOTT & WHITE MEDICAL CENTER - TEMPLE should be TEXAS HEALTH HARRIS METHODIST HOSPITAL SOUTHWEST F
-Hospital Ranking excel file: hospital_ranking.xlsx not correctly created = 0 points
+Hospital Ranking excel file: hospital_ranking.xlsx correctly created = 10 points
 Measures Statistics excel file: measures_statistics.xlsx correctly created = 10 points
