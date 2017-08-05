@@ -1,10 +1,1 @@
-Traceback (most recent call last):
-  File "market_basket_analytics.py", line 111, in <module>
-    print("%03d"%num +","+recommended_product(row), file=f)
-  File "market_basket_analytics.py", line 76, in recommended_product
-    recomm = new_data.groupby('Period').size().idxmax()
-  File "/home/ancuser/anaconda3/lib/python3.6/site-packages/pandas/core/series.py", line 1264, in idxmax
-    i = nanops.nanargmax(_values_from_object(self), skipna=skipna)
-  File "/home/ancuser/anaconda3/lib/python3.6/site-packages/pandas/core/nanops.py", line 479, in nanargmax
-    result = values.argmax(axis)
-ValueError: attempt to get argmax of an empty sequence
+ 
