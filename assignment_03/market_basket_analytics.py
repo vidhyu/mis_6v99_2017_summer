@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 import requests # for sending Http requests 
-import pandas as pd
+import pandas as pd #pandas to create dataframes
 
 
 # Step1 : Downloading and Extracting txt  training file
@@ -18,7 +18,7 @@ f.write(r.content) # writes the entire content in the url to the zip file
 f.close() # closes the file
 
 def read_data(file_name):
-    """Read a file that lists possible transactions"""
+    #"""Read a file that lists possible transactions"""
     result = list()
     with open(file_name, 'r') as file_reader:
         for line in file_reader:
@@ -27,13 +27,13 @@ def read_data(file_name):
             result.append(order_set)
     return result
 
-training_data = read_data("market_basket_training.txt")
+training_data = read_data("market_basket_training.txt")  # data stored in a list
     
-products = [tuple(x) for x in training_data]
+products = [tuple(x) for x in training_data]  # changing each row into tuples
 
-column_names = ['a', 'b', 'c', 'd']
+column_names = ['a', 'b', 'c', 'd']  #names of columns for dataframe
 
-df = pd.DataFrame(products, columns = column_names)
+df = pd.DataFrame(products, columns = column_names)  # creating dataframe
 
 
 # Step2 : Downloading and Extracting txt for test file
@@ -58,9 +58,9 @@ test_products = [list(x) for x in test_data]
 
 def recommended_product(test):
     if len(test) ==1:
-        data = pd.DataFrame(df[df['c'].isnull()])
+        data = pd.DataFrame(df[df['c'].isnull()]) #getting rows which have data only in the first 2 columns
         data2 = pd.DataFrame(data.ix[:,:'b'])
-        data2['Period'] = data2.a.astype(str).str.cat(data2.b.astype(str), sep=',')
+        data2['Period'] = data2.a.astype(str).str.cat(data2.b.astype(str), sep=',') # creating a new column with combination of another product
         new_data = pd.DataFrame(data2['Period'])
         new_data = new_data[new_data['Period'].str.contains(test[0], na=False)]
         recomm = new_data.groupby('Period').size().idxmax()
@@ -68,14 +68,14 @@ def recommended_product(test):
         return final_reco[0]
     
     if len(test) ==2:
-        data = pd.DataFrame(df[~(df['c'].isnull()) & (df['d'].isnull())])
+        data = pd.DataFrame(df[~(df['c'].isnull()) & (df['d'].isnull())]) #getting rows which have data only in the first 3 columns
         data2 = pd.DataFrame(data.ix[:,:'c'])
         recomm = data2[((data2['a']== test[0]) | (data2['b'] == test[0]))&((data2['b']== test[1]) | (data2['c'] == test[1]))].groupby(['a','b','c']).size().idxmax()
-        final_reco = list(set(recomm) - set(test))
+        final_reco = list(set(recomm) - set(test))  #after getting the set of max count, subtracting the test products to get the recommended product
         return final_reco[0]
     
     if len(test) ==3:
-        data = pd.DataFrame(df[~(df['d'].isnull())])
+        data = pd.DataFrame(df[~(df['d'].isnull())])  #get the rows which do not have null values in the 4th column
         recomm = data[((data['a']== test[0]) | (data['b'] == test[0]))&((data['b']== test[1]) | (data['c'] == test[1]))&((data['c']== test[2]) | (data['d'] == test[2]))].groupby(['a','b','c','d']).size().idxmax()
         final_reco = list(set(recomm) - set(test))
         return final_reco[0]
