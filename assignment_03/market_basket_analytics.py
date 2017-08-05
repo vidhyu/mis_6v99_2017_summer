@@ -70,20 +70,14 @@ def recommended_product(test):
     if len(test) ==2:
         data = pd.DataFrame(df[~(df['c'].isnull()) & (df['d'].isnull())])
         data2 = pd.DataFrame(data.ix[:,:'c'])
-        data2['Period'] = data2.a.astype(str).str.cat(data2.b.astype(str), sep=',').str.cat(data2.c.astype(str), sep=',')
-        new_data = pd.DataFrame(data2['Period'])
-        new_data = new_data[new_data['Period'].str.contains(','.join(test), na=False)]
-        recomm = new_data.groupby('Period').size().idxmax()
-        final_reco = list(set(recomm.split(',')) - set(test))
+        recomm = data2[((data2['a']== test[0]) | (data2['b'] == test[0]))&((data2['b']== test[1]) | (data2['c'] == test[1]))].groupby(['a','b','c']).size().idxmax()
+        final_reco = list(set(recomm) - set(test))
         return final_reco[0]
     
     if len(test) ==3:
         data = pd.DataFrame(df[~(df['d'].isnull())])
-        data['Period'] = data.a.astype(str).str.cat(data.b.astype(str), sep=',').str.cat(data.c.astype(str), sep=',').str.cat(data.d.astype(str), sep=',')
-        new_data = pd.DataFrame(data['Period'])
-        new_data = new_data[new_data['Period'].str.contains(','.join(test), na=False)]
-        recomm = new_data.groupby('Period').size().idxmax()
-        final_reco = list(set(recomm.split(',')) - set(test))
+        recomm = data[((data['a']== test[0]) | (data['b'] == test[0]))&((data['b']== test[1]) | (data['c'] == test[1]))&((data['c']== test[2]) | (data['d'] == test[2]))].groupby(['a','b','c','d']).size().idxmax()
+        final_reco = list(set(recomm) - set(test))
         return final_reco[0]
         
 
