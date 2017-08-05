@@ -55,4 +55,9 @@ with open(fn,'w') as f:
     print(len(my_list), file=f)
     for row in c:
         print(row[0]+','+ str(row[1]), file=f)
+        
+fn = 'tweets.txt' # file name
+with open(fn,'w') as f:
+    for r in my_list:
+        print(r, file=f)
  
